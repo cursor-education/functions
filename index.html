@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Functions</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Functions
+
+---
+
+## Function declaration and invocation
+
+### Function construction
+
+```javascript
+function [function name] (arguments) {
+    /* function body */
+}
+```
+
+- Can be named or anonymus
+- Can take no or infinite number of arguments
+- Can return value or/and do some piece of code
+- Function names are variables defined like "var"
+
+### Function invocation
+
+```javascript
+name(arguments)
+```
+
+---
+
+## Function declaration and invocation
+
+### Function declaration
+
+```javascript
+function name(arg1, arg2) {
+    var result = arg1 + arg2;
+    return result;
+}
+```
+
+### Function expression
+
+```javascript
+var name = function(arg1, arg2) {
+    var result = arg1 + arg2;
+    return result;
+}
+```
+
+---
+
+## Function declaration and invocation
+
+### Hoisting
+
+In javascript function declarations are hoisted (are loaded before any code executes),
+so you can define and invoke them in any order
+
+And otherwise we are able to invoke function definition only after definition line
+
+---
+
+## Function declaration and invocation
+
+### Named function expression
+
+```javascript
+var superFunction = function superFunction(arg1, arg2) {
+    var result = arg1 + arg2;
+    return result;
+}
+```
+
+You can access function by its name inside function body (usefull for recursion)
+
+---
+
+## Function declaration and invocation
+
+### Anonymus function
+
+```javascript
+function() {
+    console.log('---');
+}
+```
+
+---
+
+## Function declaration and invocation
+
+### IIFE (Immediately Invoked Function Expression)
+
+```javascript
+var superResult = (function(arg1, arg2) {
+    var result = arg1 + arg2;
+    return result;
+})();
+
+(function(arg1, arg2) {
+    alert('Hello Noob!');
+}());
+
+```
+---
+
+## Function declaration and invocation
+
+### Recap this section
+
+
+
+- Function declaration
+- Function expression
+- Anonymus function
+- Hoisting
+- IIFE
+
+---
+
+## Arguments
+
+You may access all passed values with arguments keyword inside of a function.
+Arguments is an array like object holding all of the values passed to the function
+
+```javascript
+function showAllArguments() { // no named arguments
+  console.log(arguments);
+  console.log(arguments.length);
+}
+
+add(); // -> {} // -> 0
+add(1, 2); // -> {'0': 1, '1': 2} // -> 2
+```
+---
+## Returning a value
+
+Function returns value with return keyword.
+
+```javascript
+function greet(name) {
+  var greetMessage = 'Hello, ' + name + '!';
+  return greetMessage;
+}
+console.log( greet('JS') ); // 'Hello, JS!'
+```
+
+You may use return anywhere in body,
+but it will stop execution of a function and jump out of it immediately.
+
+```javascript
+function checkUser(login) {
+  if (login == undefined) {
+    return 'You did not specify a login';
+  } else if (login == 'admin') {
+    return 'It is admin';
+  } else if (login == 'user') {
+    return 'It is user';
+  }
+  return 'User is unknown';
+}
+```
+
+---
+
+## Returning a value
+
+If you don't specify return explicitly, JS will use undefined as a result of function call.
+
+```javascript
+function noReturn() {}
+noReturn(); // -> undefined
+```
+
+---
+
+## Scopes
+Scope is a block of code where variable can be accessed ("is visible").
+In JavaScript scope is defined by function.
+
+```javascript
+(function outer() {
+  console.log(x) // -> undefined
+  while ( !x ){
+    var x = 1;
+  }
+  console.log(x); // -> 1
+  inner(); // -> 1
+  function inner() {
+    console.log(x);
+    innerer();
+    function innerer(){
+      var x = 2;
+      console.log(x); // -> 2
+    }
+  }
+})();
+```
+---
+
+## Scopes
+
+If you define variable without var keyword, it becomes global.
+
+```javascript
+function createGlobalVariable() {
+  x = 1;
+}
+console.log(x); // -> undefined
+createGlobalVariable();
+console.log(x); // -> 1
+```
+
+It is not recommended to use global variables.
+They lead to unclear code and may be a source of hard to find errors.
+
+---
+
+## Scopes
+
+To avoid variable names intersections usually self-executed anonymous functions are used:
+
+```javascript
+(function() {
+  var x = 1;
+  console.log(x);
+})();
+
+(function() {
+  var x = 2;
+  console.log(x);
+})();
+
+```
+
+Both variables share same name, but are different variables of different scopes.
+
+---
+
+## Using functions
+
+- Running piece of code
+- Object methods
+- HOF (high order functions)
+- Closures
+- Recursions
+
+---
+
+## Using functions
+
+### Object methods
+
+```javascript
+var dog = {
+    makeWoof: function() {
+        alert('Woof! Rrrr');
+    }
+}
+
+dog.makeWoof();
+```
+
+When you invoke object method, you should use object name then '.' (dot) and function name with parenthesis.
+
+Behind the scenes all functions in browser are executed on some object, even function defined by expression or definition are executed on "window" object
+
+```javascript
+function sayHi() { alert('Say Hi') };
+
+sayHi();
+window.sayHi();
+```
+
+---
+
+## Using functions
+
+### Built-in functions
+
+There are plenty built-in functions(methods) in javascript like:
+
+parseInt(); parseFloat(); setTimeout(); setInteval();
+
+Array.sort();
+Math.random();
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
+
+---
+
+## Using functions
+
+### (HOF) High order functions
+
+HOF are functions that takes another function as argument
+
+```javascript
+var arr = [1, 2, 3, 4, 5, 6, 7];
+
+arr.filter(function(element) {
+    return element % 2;
+});
+```
+
+---
+
+## Using functions
+
+### Closures
+
+In javascript functions are closures. It means that the function body has access
+variables defined outside the function body and can store them during further exexcutions.
+
+```javascript
+function counter() {
+    var count = 0;
+
+    return function() {
+        return ++count;
+    }
+}
+
+var generator = counter();
+
+generator(); // 1
+generator(); // 2
+generator(); // 3
+generator(); // 4
+```
+
+---
+
+## Using functions
+
+### Recursion
+
+Recursion is when the function calls itsel until it doesn't. Impotant to add way to exit!
+
+```javascript
+
+var countDownTo = function anyNameIfYouSee(number) {
+    if (number === 0) return;
+    console.log(number);
+    anyNameIfYouSee(number - 1);
+}
+
+// anyNameIfYouSee(10) - is not defined outside
+
+```
+
+---
+
+Resources
+
+- http://eloquentjavascript.net/03_functions.html
+- http://code.tutsplus.com/tutorials/javascript-hoisting-explained--net-15092
+- http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
+
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
